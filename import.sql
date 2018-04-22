@@ -4,6 +4,7 @@ TRUNCATE TABLE Medlem;
 LOAD DATA INFILE 'C:/data/medlemmer.csv'
 INTO TABLE Medlem
 FIELDS TERMINATED BY ';'
+LINES TERMINATED BY '\r\n'
 IGNORE 1 LINES 
 (Medlemsnummer, Fornavn, Etternavn, Fodselsdato, Kjonn, Medlemstype, Gateaddresse, Postnummer, Poststed);
 
@@ -23,7 +24,17 @@ FIELDS TERMINATED BY ';'
 LINES TERMINATED BY '\r\n'
 IGNORE 1 LINES 
 (Medlemstype, Kontingent, Periode, @Aldersgruppe)
+SET Min_alder = CASE WHEN @Aldersgruppe LIKE '%+%' THEN CONVERT(LEFT(@Aldersgruppe,2), UNSIGNED INTEGER) + 1 ELSE CONVERT(LEFT(@Aldersgruppe,2), UNSIGNED INTEGER) END, -- 60 + definert som 61 og eldre
+Max_alder = CASE WHEN @Aldersgruppe LIKE '%+%' THEN 9999 ELSE CONVERT(RIGHT(@Aldersgruppe,2), UNSIGNED INTEGER) END;
+
+--Oversikt over korrekte postadresser
+TRUNCATE TABLE postadresser;
+LOAD DATA INFILE 'C:/data/Postnummerregister-ansi.txt'
+INTO TABLE postadresser
+LINES TERMINATED BY '\r\n'
+(Po, Kontingent, Periode, @Aldersgruppe)
 SET Min_alder = CONVERT(LEFT(@Aldersgruppe,2), UNSIGNED INTEGER), Max_alder = CASE WHEN @Aldersgruppe LIKE '%+%' THEN NULL ELSE CONVERT(RIGHT(@Aldersgruppe,2), UNSIGNED INTEGER) END;
+
 
 SELECT * FROM  Medlem;
 SELECT * FROM Betaling;

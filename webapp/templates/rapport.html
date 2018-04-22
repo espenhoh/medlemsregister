@@ -1,7 +1,11 @@
 {% extends 'oppsett.html' %}
 
 {% block body %}
-
+<h1>{{overskrift}}</h1>
+  {% for tabell in tabeller %}
+    <h2>{{titler[loop.index-1]}}</h2>
+    {{ tabell|safe }}
+  {% endfor %}
 
 
 {% endblock %}

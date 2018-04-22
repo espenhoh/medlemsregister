@@ -44,4 +44,12 @@ CREATE TABLE Medlem (
   )
 ) ;
 ALTER TABLE Medlem COMMENT = '';
+CREATE TABLE Postadresser (
+  Postnummer    SMALLINT UNSIGNED NOT NULL,
+  Poststed      VarChar(20), 
+  PRIMARY KEY (
+      Postnummer
+  )
+) ;
+ALTER TABLE Postadresser COMMENT = '';
 

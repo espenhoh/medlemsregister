@@ -9,7 +9,8 @@ This is a temporary script file.
 import mysql.connector
 import datetime
 #import numpy as np
-from pandas import read_sql_query
+#from pandas import read_sql_query
+import pandas as pd
 
 class klubbregister(object):
     
@@ -27,8 +28,9 @@ class klubbregister(object):
 
     def kjør_pandas_raw(self, sql, dates):
         print("Connecting to database with query: " + sql)
-        return read_sql_query(sql, self.cnxn, index_col=None, coerce_float=True, params=None, parse_dates=dates, chunksize=None) 
-    
+        pd.set_option('display.max_colwidth', -1)
+        return pd.read_sql_query(sql, self.cnxn, index_col=None, coerce_float=True, params=None, parse_dates=dates, chunksize=None)
+
     
 if __name__ == "__main__":
     klubb = klubb() 
