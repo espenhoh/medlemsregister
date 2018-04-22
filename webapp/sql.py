@@ -18,13 +18,16 @@ class klubbregister(object):
         #self.connString = 'DSN=' + database + ';Database='+ catalog + ';UID=root;PWD=root'
         #self.cnxn = pyodbc.connect(self.connString)
         
-        self.cnxn = mysql.connector.connect(user='root', password='root', host='127.0.0.1', database='klubb') # må lage bruker uten rottilgang
+        self.cnxn = mysql.connector.connect(user='rapporter', password='123456', host='127.0.0.1', database='klubb') # må lage bruker uten rottilgang
         
     def close(self):
         self.cnxn.close()
     
     def kjør_pandas(self, sql):
-        return self.kjør_pandas_raw(sql, None)
+        df = self.kjør_pandas_raw(sql, None)
+        # Fjerner '_' fra overskrifter
+        df.rename(columns=lambda header: header.replace('_', ' '), inplace=True)
+        return df
 
     def kjør_pandas_raw(self, sql, dates):
         print("Connecting to database with query: " + sql)

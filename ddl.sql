@@ -1,6 +1,14 @@
-DROP SCHEMA klubb;
+-- Lag en bruker med bare lesetilganger
 
-CREATE SCHEMA klubb;
+CREATE USER 'rapporter'@'localhost' IDENTIFIED BY '123456';
+GRANT SELECT ON klubb.* TO 'rapporter'@'localhost';
+FLUSH PRIVILEGES;
+
+SHOW GRANTS FOR 'rapporter'@'localhost';
+
+-- DROP SCHEMA klubb;
+
+-- CREATE SCHEMA klubb;
 
 USE klubb;
 

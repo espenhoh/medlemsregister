@@ -6,13 +6,13 @@ app = Flask(__name__)
 @app.route('/')
 def index():
     
-    sql = 'SELECT * FROM v_alle_medlemmer;'
+    sqlstr = 'SELECT * FROM v_alle_medlemmer;'
     
     klubbregister = sql.klubbregister()
-    medlemmer = klubbregister.kjør_pandas(sql)
+    medlemmer = klubbregister.kjør_pandas(sqlstr)
     return render_template('rapport.html', 
                            overskrift = 'Oversikt over alle medlemmer',
-                           tabeller=[medlemmer.to_html(classes='table-responsive', index=False)],
+                           tabeller=[medlemmer.to_html(classes='table-hover', index=False)],
                            titler=[''])
 
 @app.route('/andre')
@@ -21,7 +21,7 @@ def andre_feil():
     andre_feil = klubbregister.kjør_pandas('SELECT * FROM v_andre_feil ORDER BY Medlemsnummer;')
     return render_template('rapport.html', 
                            overskrift = 'Andre feil i medlemsregisteret',
-                           tabeller=[andre_feil.to_html(classes='table-responsive', index=False)],
+                           tabeller=[andre_feil.to_html(classes='table-hover', index=False)],
                            titler=[''])
 
 @app.route('/medlemstype')
@@ -30,7 +30,7 @@ def feil_medlemstype():
     feil_medlemstype = klubbregister.kjør_pandas('SELECT * FROM v_feil_medlemstype ORDER BY Medlemsnummer;')
     return render_template('rapport.html', 
                            overskrift = 'Medlemmer registrert med feil medlemstype beregnet fra alder',
-                           tabeller=[feil_medlemstype.to_html(classes='table-responsive', index=False)],
+                           tabeller=[feil_medlemstype.to_html(classes='table-hover', index=False)],
                            titler=[''])
 
 
@@ -43,9 +43,9 @@ def feil_innbetaling():
 
     return render_template('rapport.html', 
                            overskrift = 'Oversikt over gale innbetalinger',
-                           tabeller=[gale_innbetalinger.to_html(classes='table-responsive', index=False), 
-                                     gale_innbetalinger_korrigert_medlemstype.to_html(classes='table-responsive', index=False),
-                                     gale_innbetalinger_medlemsnr.to_html(classes='table-responsive', index=False),],
+                           tabeller=[gale_innbetalinger.to_html(classes='table-hover', index=False), 
+                                     gale_innbetalinger_korrigert_medlemstype.to_html(classes='table-hover', index=False),
+                                     gale_innbetalinger_medlemsnr.to_html(classes='table-hover', index=False),],
                            titler=['Gale innbetalinger basert på medlemstype registrert i medlem',
                                    'Gale innbetalinger basert på korrekt medlemstype beregnet alder',
                                    'Betalinger utført av medlemer uten unikt medlemsnummer'])

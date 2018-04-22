@@ -87,8 +87,8 @@ SELECT
 	medlem.Medlemsnummer,
 	medlem.Fornavn,
 	medlem.Etternavn,
-	medlem.Medlemstype AS Registrert_medlemstype,
-	CASE WHEN kontingent.Medlemstype IS NULL THEN 'Kontroller fødselsdato!' ELSE kontingent.Medlemstype END AS Korrekt_medlemstype
+	medlem.Medlemstype AS 'Registrert medlemstype',
+	CASE WHEN kontingent.Medlemstype IS NULL THEN 'Kontroller fødselsdato!' ELSE kontingent.Medlemstype END AS 'Korrekt medlemstype'
 FROM medlem
 JOIN alder on alder.Medlem_id = medlem.Medlem_id
 LEFT JOIN kontingent on alder.Alder >= kontingent.Min_alder AND alder.Alder <= kontingent.Max_alder
@@ -109,7 +109,7 @@ SELECT
 	medlem.Etternavn,
 	medlem.Medlemstype,
 	betaling.Belop as innbetalt,
-	kontingent.Kontingent AS Korrekt_kontingent
+	kontingent.Kontingent AS 'Korrekt kontingent'
 FROM betaling
 JOIN medlem on betaling.Medlemsnummer = medlem.Medlemsnummer
 LEFT JOIN	kontingent on kontingent.Periode = betaling.Periode AND kontingent.Medlemstype = medlem.Medlemstype
@@ -124,7 +124,7 @@ SELECT
 	Medlemsnummer,
 	Belop AS Beløp,
 	Periode,
-	Innbetalt_dato
+	Innbetalt_dato as 'Innbetalt dato'
 FROM betaling
 WHERE betaling.Medlemsnummer in (SELECT Medlemsnummer FROM medlem GROUP BY Medlemsnummer HAVING COUNT(*) > 1);
 
@@ -132,14 +132,14 @@ SELECT * FROM v_gale_innbetalinger_medlemsnr;
 
 
 -- Gale innbetalinger som følge av feil medlemstype
-CREATE VIEW v_gale_innbetalinger_korrigert_medlemstype as
+ALTER VIEW v_gale_innbetalinger_korrigert_medlemstype as
 SELECT
 	betaling.Medlemsnummer,
 	v_feil_medlemstype.Fornavn,
 	v_feil_medlemstype.Etternavn,
-	v_feil_medlemstype.Korrekt_medlemstype,
+	v_feil_medlemstype.Korrekt_medlemstype as 'Korrekt medlemstype',
 	betaling.Belop as innbetalt,
-	kontingent.Kontingent AS Korrekt_kontingent
+	kontingent.Kontingent AS 'Korrekt kontingent'
 FROM betaling
 JOIN v_feil_medlemstype on betaling.Medlemsnummer = v_feil_medlemstype.Medlemsnummer
 LEFT JOIN	kontingent on kontingent.Periode = betaling.Periode AND kontingent.Medlemstype = v_feil_medlemstype.Korrekt_medlemstype
@@ -148,7 +148,7 @@ WHERE v_feil_medlemstype.Medlemsnummer NOT in (SELECT Medlemsnummer FROM medlem 
 
 SELECT * FROM  v_gale_innbetalinger_korrigert_medlemstype;
 
-CREATE VIEW v_alle_medlemmer AS
+ALTER VIEW v_alle_medlemmer AS
 SELECT
 	Medlemsnummer,
 	Fornavn,
