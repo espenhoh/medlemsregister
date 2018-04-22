@@ -153,7 +153,7 @@ SELECT
 	Medlemsnummer,
 	Fornavn,
 	Etternavn,
-	Fodselsdato as Fødselsdato,
+	STR_TO_DATE(Fodselsdato, '%d.%m.%Y') as Fødselsdato,
 	Kjonn AS Kjønn,
 	Gateaddresse,
 	Postnummer,
