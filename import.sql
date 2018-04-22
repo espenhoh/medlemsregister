@@ -32,10 +32,10 @@ TRUNCATE TABLE postadresser;
 LOAD DATA INFILE 'C:/data/Postnummerregister-ansi.txt'
 INTO TABLE postadresser
 LINES TERMINATED BY '\r\n'
-(Po, Kontingent, Periode, @Aldersgruppe)
-SET Min_alder = CONVERT(LEFT(@Aldersgruppe,2), UNSIGNED INTEGER), Max_alder = CASE WHEN @Aldersgruppe LIKE '%+%' THEN NULL ELSE CONVERT(RIGHT(@Aldersgruppe,2), UNSIGNED INTEGER) END;
+(postnummer, Poststed, @ignored1,@ignored2,@ignored3);
 
 
 SELECT * FROM  Medlem;
 SELECT * FROM Betaling;
 SELECT * FROM kontingent;
+SELECT * FROM postadresser;

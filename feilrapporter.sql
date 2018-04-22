@@ -1,6 +1,5 @@
 --- Feil i fødselsdato og andre feil
---
-ALTER VIEW v_andre_feil AS
+CREATE VIEW v_andre_feil AS
 SELECT --Duplikater i medlemsnummer
 	Medlemsnummer,
 	Fornavn,
@@ -67,17 +66,11 @@ FROM medlem
 LEFT JOIN postadresser on postadresser.Postnummer = medlem.Postnummer
 WHERE medlem.Poststed <> postadresser.Poststed;
 
-
-
-
-
-SELECT Medlemsnummer FROM medlem GROUP BY Medlemsnummer HAVING COUNT(*) > 1
-
 SELECT * FROM v_andre_feil;
 
 
 -- Feil medlemstype
-ALTER VIEW v_feil_medlemstype AS
+CREATE VIEW v_feil_medlemstype AS
 WITH alder AS (
  SELECT 
  	Medlem_id,
@@ -87,8 +80,8 @@ SELECT
 	medlem.Medlemsnummer,
 	medlem.Fornavn,
 	medlem.Etternavn,
-	medlem.Medlemstype AS 'Registrert medlemstype',
-	CASE WHEN kontingent.Medlemstype IS NULL THEN 'Kontroller fødselsdato!' ELSE kontingent.Medlemstype END AS 'Korrekt medlemstype'
+	medlem.Medlemstype AS Registrert_medlemstype,
+	CASE WHEN kontingent.Medlemstype IS NULL THEN 'Kontroller fødselsdato!' ELSE kontingent.Medlemstype END AS Korrekt_medlemstype
 FROM medlem
 JOIN alder on alder.Medlem_id = medlem.Medlem_id
 LEFT JOIN kontingent on alder.Alder >= kontingent.Min_alder AND alder.Alder <= kontingent.Max_alder
@@ -102,14 +95,14 @@ SELECT * FROM v_feil_medlemstype;
 
 
 ---Gale innbetalinger, kontrollerer opp mot faktisk medlemstype
-ALTER VIEW v_gale_innbetalinger as
+CREATE VIEW v_gale_innbetalinger as
 SELECT
 	betaling.Medlemsnummer,
 	medlem.Fornavn,
 	medlem.Etternavn,
 	medlem.Medlemstype,
 	betaling.Belop as innbetalt,
-	kontingent.Kontingent AS 'Korrekt kontingent'
+	kontingent.Kontingent AS Korrekt_kontingent
 FROM betaling
 JOIN medlem on betaling.Medlemsnummer = medlem.Medlemsnummer
 LEFT JOIN	kontingent on kontingent.Periode = betaling.Periode AND kontingent.Medlemstype = medlem.Medlemstype
@@ -119,12 +112,12 @@ WHERE medlem.Medlemsnummer NOT in (SELECT Medlemsnummer FROM medlem GROUP BY Med
 SELECT * FROM v_gale_innbetalinger;
 
 --Betalinger utført av medlemmer med ikke unikt medemsnummer
-ALTER VIEW v_gale_innbetalinger_medlemsnr as
+CREATE VIEW v_gale_innbetalinger_medlemsnr as
 SELECT
 	Medlemsnummer,
 	Belop AS Beløp,
 	Periode,
-	Innbetalt_dato as 'Innbetalt dato'
+	Innbetalt_dato as Innbetalt_dato
 FROM betaling
 WHERE betaling.Medlemsnummer in (SELECT Medlemsnummer FROM medlem GROUP BY Medlemsnummer HAVING COUNT(*) > 1);
 
@@ -132,14 +125,14 @@ SELECT * FROM v_gale_innbetalinger_medlemsnr;
 
 
 -- Gale innbetalinger som følge av feil medlemstype
-ALTER VIEW v_gale_innbetalinger_korrigert_medlemstype as
+CREATE VIEW v_gale_innbetalinger_korrigert_medlemstype as
 SELECT
 	betaling.Medlemsnummer,
 	v_feil_medlemstype.Fornavn,
 	v_feil_medlemstype.Etternavn,
-	v_feil_medlemstype.Korrekt_medlemstype as 'Korrekt medlemstype',
+	v_feil_medlemstype.Korrekt_medlemstype,
 	betaling.Belop as innbetalt,
-	kontingent.Kontingent AS 'Korrekt kontingent'
+	kontingent.Kontingent AS Korrekt_kontingent
 FROM betaling
 JOIN v_feil_medlemstype on betaling.Medlemsnummer = v_feil_medlemstype.Medlemsnummer
 LEFT JOIN	kontingent on kontingent.Periode = betaling.Periode AND kontingent.Medlemstype = v_feil_medlemstype.Korrekt_medlemstype
@@ -156,7 +149,7 @@ SELECT
 	STR_TO_DATE(Fodselsdato, '%d.%m.%Y') as Fødselsdato,
 	Kjonn AS Kjønn,
 	Gateaddresse,
-	Postnummer,
+	RIGHT(CONCAT('000',COALESCE(Postnummer,'')),4) as Postnummer,
 	Poststed,
 	Medlemstype
 FROM medlem;

@@ -1,26 +1,70 @@
 $(document).ready(function(){
+
+	
+	
+	function genererPDF(tittel, undertittel, ids) {
+		var dokument = new jsPDF('l', 'pt');
+		
+		
+		//Overskrift
+		dokument.setFontSize(30)
+		dokument.text(tittel, 40, 40);
+		
+		var tabellnr, Ystart;
+		for (tabellnr = 0; tabellnr < ids.length; tabellnr++) {
+			
+			var res = dokument.autoTableHtmlToJson(document.getElementById('tabell' + tabellnr));
+			
+			if (tabellnr > 0 ) {
+				Ystart = dokument.autoTable.previous.finalY + 40;
+			} else {
+				Ystart = 80;
+			}
+				
+			var header = function(data) {
+				dokument.setFontSize(20);
+				dokument.setTextColor(44);
+				dokument.setFontStyle('normal');
+				dokument.text(undertittel[tabellnr], data.settings.margin.left, Ystart);
+			};
+			
+			var options = {
+				addPageContent: header,
+				startY: Ystart + 20,
+				margin: {
+				  top: 80
+				}
+			};
+			dokument.autoTable(res.columns, res.data, options);
+		} 
+				
+		dokument.save(tittel + '.pdf');
+	}
 	
 	$('#eksporter_til_PDF').click(function(){
-            var divContents = $("#container").html();
-            var printWindow = window.open('', '', 'height=400,width=800');
-            printWindow.document.write('<html><head><title>DIV Contents</title>');
-            printWindow.document.write('</head><body >');
-            printWindow.document.write(divContents);
-            printWindow.document.write('</body></html>');
-            printWindow.document.close();
-            printWindow.print();
-
-		
-		
-		
-		/*
-		if(('eksporterPDF').length > 0){
-			$('h1, h2, thead, tbody tr').not('.eksporterPDF').hide();
+       	if($('.eksporterPDF').length > 0) {
+			//Slett alt som ikke skal printes til PDF
+			$('h1, h2, thead, tbody tr').not('.eksporterPDF').remove();
+			var ids = [];
+			var tittel = $('h1').text();
+			var undertittel = [];
+			$('table').each(function(index){
+				// Autotable støtter kun id så vi fester en id til hver tabell
+				$(this).attr('id', 'tabell'+index);
+				ids.push('tabell'+index)
+				undertittel.push($(this).prev('h2').text());
+			});
+			
+			
+			genererPDF(tittel, undertittel, ids);
+			
+			//Kjør et nytt kall mot server for å få tilbake alle radene
+			location.reload(true);
 		}
-		*/
+		
 		
 		//$('h1, h2, thead, tbody tr').show();
-	})
+	});
 	
 	
 	$('tbody tr').click(function(){

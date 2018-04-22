@@ -6,9 +6,9 @@ FLUSH PRIVILEGES;
 
 SHOW GRANTS FOR 'rapporter'@'localhost';
 
--- DROP SCHEMA klubb;
+DROP SCHEMA klubb;
 
--- CREATE SCHEMA klubb;
+CREATE SCHEMA klubb;
 
 USE klubb;
 
@@ -16,7 +16,7 @@ USE klubb;
 CREATE TABLE Betaling (
   Betaling_id    Integer UNSIGNED NOT NULL AUTO_INCREMENT,
   Medlemsnummer  Integer UNSIGNED NOT NULL,
-  Belop          Numeric(18, 4),
+  Belop          Numeric(15, 2),
   Periode        YEAR(4),      ---Spesialtype
   Innbetalt_dato Date, 
   PRIMARY KEY (
@@ -27,7 +27,7 @@ ALTER TABLE Betaling COMMENT = '';
 CREATE TABLE Kontingent (
   kontingent_id Integer UNSIGNED NOT NULL AUTO_INCREMENT,
   Medlemstype   VarChar(10),
-  Kontingent    Numeric(18, 4),
+  Kontingent    Numeric(15, 2),
   Periode       YEAR(4),      ---Spesialtype
   Min_alder     SmallInt UNSIGNED,
   Max_alder     SmallInt UNSIGNED, 
