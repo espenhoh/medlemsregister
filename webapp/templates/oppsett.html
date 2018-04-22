@@ -3,5 +3,20 @@
   <head>
     <meta charset="utf-8">
 	<title>Rapporter fra medlemsregister</title>
+	<link rel="stylesheet" href="static/bootstrap.min.css">
   </head>
+  <body>
+
+	{% include 'inkluder/_naviger.html' %}
+	
+	<div class ="container">
+	{% block body %}{% endblock %}
+	
+	
+	{{ tabell|safe }}
+	</div>
+	<script src="static/jquery-3.3.1.min.js"></script>
+	<script src="static/bootstrap.min.js"></script>
+  </body>
+</html>
 	
