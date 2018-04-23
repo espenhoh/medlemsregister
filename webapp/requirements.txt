@@ -1,14 +1,4 @@
-css
-Bootstrap v3.3.7
-
-
-
-js
-Bootstrap v3.3.7
-jQuery v3.3.1 
-
-
-python:
-pandas
-flask
-mysql-connector-python v2.0.4
+Flask==0.12.2
+Flask-Cors==3.0.3
+mysql-connector-python==2.0.4
+pandas==0.22.0

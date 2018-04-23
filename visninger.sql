@@ -70,7 +70,7 @@ SELECT * FROM v_andre_feil;
 
 
 -- Feil medlemstype
-ALTER VIEW v_feil_medlemstype AS
+CREATE VIEW v_feil_medlemstype AS
 WITH alder AS (
  SELECT 
  	Medlem_id,
@@ -142,7 +142,7 @@ WHERE v_feil_medlemstype.Medlemsnummer NOT in (SELECT Medlemsnummer FROM medlem 
 
 SELECT * FROM  v_gale_innbetalinger_korrigert_medlemstype;
 
-ALTER VIEW v_alle_medlemmer AS
+CREATE VIEW v_alle_medlemmer AS
 SELECT
 	Medlemsnummer,
 	Fornavn,
