@@ -1,6 +1,6 @@
 $(document).ready(function(){
 
-	
+	$('.data_table').DataTable();
 	
 	function genererPDF(tittel, undertittel, ids) {
 		var dokument = new jsPDF('l', 'pt');
@@ -77,13 +77,13 @@ $(document).ready(function(){
 			if (tabell.find('tr.eksporterPDF').length == 0) {
 				tabell.find('thead').removeClass('eksporterPDF');
 				tabell.prev('h2').removeClass('eksporterPDF');
-				tabell.prevAll('h1').removeClass('eksporterPDF');
+				$('h1').removeClass('eksporterPDF');
 			}
 		} else {
 			$(this).addClass('eksporterPDF');
 			tabell.find('thead').addClass('eksporterPDF');
 			tabell.prev('h2').addClass('eksporterPDF');
-			tabell.prevAll('h1').addClass('eksporterPDF');
+			$('h1').addClass('eksporterPDF');
 		}
 	}); 
 

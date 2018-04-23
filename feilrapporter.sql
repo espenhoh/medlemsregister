@@ -70,16 +70,17 @@ SELECT * FROM v_andre_feil;
 
 
 -- Feil medlemstype
-CREATE VIEW v_feil_medlemstype AS
+ALTER VIEW v_feil_medlemstype AS
 WITH alder AS (
  SELECT 
  	Medlem_id,
- 	TIMESTAMPDIFF(YEAR, STR_TO_DATE(medlem.Fodselsdato, '%d.%m.%Y'), NOW()) as Alder --MySQL spesifikk funksjon
+ 	COALESCE(TIMESTAMPDIFF(YEAR, STR_TO_DATE(medlem.Fodselsdato, '%d.%m.%Y'), NOW()), 0) as Alder --MySQL spesifikk funksjon
  FROM medlem)
 SELECT
 	medlem.Medlemsnummer,
 	medlem.Fornavn,
 	medlem.Etternavn,
+	alder.alder AS Alder,
 	medlem.Medlemstype AS Registrert_medlemstype,
 	CASE WHEN kontingent.Medlemstype IS NULL THEN 'Kontroller fødselsdato!' ELSE kontingent.Medlemstype END AS Korrekt_medlemstype
 FROM medlem
@@ -146,7 +147,7 @@ SELECT
 	Medlemsnummer,
 	Fornavn,
 	Etternavn,
-	STR_TO_DATE(Fodselsdato, '%d.%m.%Y') as Fødselsdato,
+	COALESCE(TIMESTAMPDIFF(YEAR, STR_TO_DATE(medlem.Fodselsdato, '%d.%m.%Y'), NOW()), 0) as Alder,
 	Kjonn AS Kjønn,
 	Gateaddresse,
 	RIGHT(CONCAT('000',COALESCE(Postnummer,'')),4) as Postnummer,

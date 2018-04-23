@@ -1,24 +1,12 @@
 # -*- coding: utf-8 -*-
-"""
-Spyder Editor
-
-This is a temporary script file.
-"""
-#import pyodbc
 
 import mysql.connector
-import datetime
-#import numpy as np
-#from pandas import read_sql_query
 import pandas as pd
 
 class klubbregister(object):
     
     def __init__(self,):
-        #self.connString = 'DSN=' + database + ';Database='+ catalog + ';UID=root;PWD=root'
-        #self.cnxn = pyodbc.connect(self.connString)
-        
-        self.cnxn = mysql.connector.connect(user='rapporter', password='123456', host='127.0.0.1', database='klubb') # må lage bruker uten rottilgang
+        self.cnxn = mysql.connector.connect(user='rapporter', password='123456', host='127.0.0.1', database='klubb')
         
     def close(self):
         self.cnxn.close()
@@ -30,12 +18,5 @@ class klubbregister(object):
         # Fjerner '_' fra overskrifter
         df.rename(columns=lambda header: header.replace('_', ' '), inplace=True)
         return df
-    
-if __name__ == "__main__":
-    klubb = klubb() 
-    sql = 'SELECT * FROM Medlem;'
-    medlemmer = klubb.kjør_pandas(sql)
-    
-    print(medlemmer)
     
     

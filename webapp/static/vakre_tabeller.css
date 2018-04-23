@@ -2,12 +2,27 @@
   background-color: #a8a8a8;
 }
 
-.eksporterPDF {
+table.dataTable tbody tr.eksporterPDF, .eksporterPDF {
 	background-color: #93a29d;
 }
 
+
+/* Samme Farge på første rad som i NAVs tabeller */
 thead {
 	background-color: #f1f1f1;
+}
+
+table.dataTable {
+	border-color: #ddd;
+	padding-left: 0px;
+	padding-right: 0px;
+	padding-bottom: 0px;
+	padding-top: 0px;
+}
+
+/*Fjerner grensene i dataTable */
+#DataTables_Table_0 {
+	border-collapse: collapse;
 }
 
 table, td, th, thead {
@@ -28,3 +43,8 @@ table {
     padding-top: 5px;
     margin-top: 8px;
     padding-bottom: 5px;
+}
+
+.sorting, .sorting_asc, .sorting_desc { cursor: pointer; }
+	
+	

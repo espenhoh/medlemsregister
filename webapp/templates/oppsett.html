@@ -3,21 +3,25 @@
   <head>
     <meta charset="utf-8">
 	<title>Rapporter fra medlemsregister</title>
-	<link rel="stylesheet" href="static/bootstrap.min.css"> <!-- Bilbiotek -->
-	<link rel="stylesheet" href="static/vakre_tabeller.css"> <!-- Egen fil -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" > <!-- Bilbiotek -->
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">  <!-- Bilbiotek -->
+	<link rel="stylesheet" href="static/vakre_tabeller.css"> <!--Egen fil -->
+	
   </head>
   <body>
 
 	{% include 'inkluder/_naviger.html' %}
 	
-	<div id="tilPrint" class="container">
+	<div class="container">
 	{% block body %}{% endblock %}
 	</div>
-	<script type="text/javascript" src="static/jquery-3.3.1.min.js"></script><!-- Bilbiotek -->
-	<script type="text/javascript" src="static/bootstrap.min.js"></script><!-- Bilbiotek -->
+	<script type="text/javascript" src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/2.3.2/jspdf.plugin.autotable.js"></script>
+	<script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
 	<script type="text/javascript" src="static/marker_og_eksporter.js"></script>  <!-- Egen fil -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/2.3.2/jspdf.plugin.autotable.js"></script>
+	{% block scripts %}{% endblock %}
   </body>
 </html>
 	
