@@ -4,8 +4,9 @@ $(document).ready(function(){
 	$('.dataframe').DataTable({
 		paging: false,
 		searching: false,
+		"aaSorting": [],
 		'columns': [
-			null,
+			{ 'orderable': false },
 			null,
 			null,
 			null,
@@ -13,7 +14,7 @@ $(document).ready(function(){
 			{ 'orderable': false },
 			{ 'orderable': false },
 			{ 'orderable': false },
-			{ 'orderable': false }
+			null
 		  ],
 		'language': {
 			'info': ''
