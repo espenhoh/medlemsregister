@@ -54,17 +54,17 @@ SELECT -- Postnummer som ikke eksisterer
 	medlem.Etternavn,
 	CONCAT('Feil i postnummer: ', medlem.Postnummer)  AS Feiltype
 FROM medlem
-LEFT JOIN postadresser on postadresser.Postnummer = medlem.Postnummer
-WHERE postadresser.Postnummer IS NULL
+LEFT JOIN postadresse on postadresse.Postnummer = medlem.Postnummer
+WHERE postadresse.Postnummer IS NULL
 UNION ALL
 SELECT
 	medlem.Medlemsnummer,
 	medlem.Fornavn,
 	medlem.Etternavn,
-	CONCAT('Feil i poststed: "', medlem.Poststed, '" skal være "', postadresser.Poststed, '"')  AS Feiltype
+	CONCAT('Feil i poststed: "', medlem.Poststed, '" skal være "', postadresse.Poststed, '"')  AS Feiltype
 FROM medlem
-LEFT JOIN postadresser on postadresser.Postnummer = medlem.Postnummer
-WHERE medlem.Poststed <> postadresser.Poststed;
+LEFT JOIN postadresse on postadresse.Postnummer = medlem.Postnummer
+WHERE medlem.Poststed <> postadresse.Poststed;
 
 SELECT * FROM v_andre_feil;
 

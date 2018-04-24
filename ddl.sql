@@ -1,5 +1,5 @@
 -- Lag en bruker med bare lesetilganger
-
+DROP USER 'rapporter'@'localhost';
 CREATE USER 'rapporter'@'localhost' IDENTIFIED BY '123456';
 GRANT SELECT ON klubb.* TO 'rapporter'@'localhost';
 FLUSH PRIVILEGES;
@@ -52,12 +52,12 @@ CREATE TABLE Medlem (
   )
 ) ;
 ALTER TABLE Medlem COMMENT = '';
-CREATE TABLE Postadresser (
+CREATE TABLE Postadresse (
   Postnummer    SMALLINT UNSIGNED NOT NULL,
   Poststed      VarChar(20), 
   PRIMARY KEY (
       Postnummer
   )
 ) ;
-ALTER TABLE Postadresser COMMENT = '';
+ALTER TABLE Postadresse COMMENT = '';
 

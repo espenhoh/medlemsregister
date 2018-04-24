@@ -27,10 +27,10 @@ IGNORE 1 LINES
 SET Min_alder = CASE WHEN @Aldersgruppe LIKE '%+%' THEN CONVERT(LEFT(@Aldersgruppe,2), UNSIGNED INTEGER) + 1 ELSE CONVERT(LEFT(@Aldersgruppe,2), UNSIGNED INTEGER) END, -- 60 + definert som 61 og eldre
 Max_alder = CASE WHEN @Aldersgruppe LIKE '%+%' THEN 9999 ELSE CONVERT(RIGHT(@Aldersgruppe,2), UNSIGNED INTEGER) END;
 
---Oversikt over korrekte postadresser
-TRUNCATE TABLE postadresser;
+--Oversikt over korrekte postadresse
+TRUNCATE TABLE postadresse;
 LOAD DATA INFILE 'C:/data/Postnummerregister-ansi.txt'
-INTO TABLE postadresser
+INTO TABLE postadresse
 LINES TERMINATED BY '\r\n'
 (postnummer, Poststed, @ignored1,@ignored2,@ignored3);
 
@@ -38,4 +38,4 @@ LINES TERMINATED BY '\r\n'
 SELECT * FROM  Medlem;
 SELECT * FROM Betaling;
 SELECT * FROM kontingent;
-SELECT * FROM postadresser;
+SELECT * FROM postadresse;
